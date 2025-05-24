@@ -52,3 +52,34 @@ export default tseslint.config({
   },
 })
 ```
+
+## Content
+📝 Introduction: What is a DApp?
+A Decentralized Application (DApp) runs on blockchain instead of centralized servers.
+
+🦊 Connect MetaMask Wallet
+
+Install MetaMask extension
+
+Create/import wallet
+
+Switch to desired network
+
+💠 Use Binance Smart Chain (BSC)
+
+Add BSC to MetaMask manually
+
+Set up RPC, Chain ID, Symbol
+
+🛠️ Deploy a Simple Smart Contract (optional)
+
+Use Remix IDE or Hardhat
+
+Interact with contract via Web3.js or Ethers.js
+
+📡 Test on 23H Google Meet
+
+Live interaction demo
+
+Q&A session
+
