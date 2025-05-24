@@ -5,14 +5,10 @@ import { Header } from './components/Header'
 import { Footer } from './components/Footer'
 import './App.css'
 
-const CONTRACT_ABI = [
-  {"inputs":[],"name":"count","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
-  {"inputs":[],"name":"dec","outputs":[],"stateMutability":"nonpayable","type":"function"},
-  {"inputs":[],"name":"get","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
-  {"inputs":[],"name":"inc","outputs":[],"stateMutability":"nonpayable","type":"function"}
-]
+const CONTRACT_ABI = [{"inputs":[],"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"}],"name":"FeeCollected","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"uint256","name":"newFeeAmount","type":"uint256"}],"name":"FeeSet","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"owner","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"}],"name":"FeesWithdrawn","type":"event"},{"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"collectedFees","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"count","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"dec","outputs":[],"stateMutability":"payable","type":"function"},{"inputs":[],"name":"feeAmount","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"get","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getContractBalance","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"inc","outputs":[],"stateMutability":"payable","type":"function"},{"inputs":[],"name":"owner","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"_newFeeAmount","type":"uint256"}],"name":"setFee","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"withdrawFees","outputs":[],"stateMutability":"nonpayable","type":"function"}]
 
-const CONTRACT_ADDRESS = '0xbc64a90a919c0b9102f477056a3403b2b0a74976'
+
+const CONTRACT_ADDRESS = '0x9E1B3806cf530b31673e453169a58C882AC53951'
 
 function HomePage() {
   const [count, setCount] = useState<number>(0)
@@ -20,6 +16,7 @@ function HomePage() {
   const [contract, setContract] = useState<ethers.Contract | null>(null)
   const [loading, setLoading] = useState(false)
   const [bnbBalance, setBnbBalance] = useState<string>('0')
+  const [sendingBnb, setSendingBnb] = useState(false)
 
   const connectWallet = async () => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -75,6 +72,28 @@ function HomePage() {
     setLoading(false)
   }
 
+  const sendBnb = async () => {
+    if (!contract) return
+    setSendingBnb(true)
+    try {
+      const signer = await contract.signer
+      const tx = await signer.sendTransaction({
+        to: CONTRACT_ADDRESS,
+        value: ethers.parseEther('0.01')
+      })
+      await tx.wait()
+      // Update BNB balance after sending
+      const balance = await signer.provider?.getBalance(await signer.getAddress())
+      if (balance) {
+        setBnbBalance(ethers.formatEther(balance))
+      }
+    } catch (error) {
+      alert('Failed to send BNB!')
+      console.error(error)
+    }
+    setSendingBnb(false)
+  }
+
   return (
     <div className="page-container">
       {!wallet ? (
@@ -85,6 +104,14 @@ function HomePage() {
         <>
           <div style={{ marginBottom: 4 }}>Wallet: {wallet.slice(0, 6)}...{wallet.slice(-4)}</div>
           <div style={{ marginBottom: 16 }}>tBNB Balance: {bnbBalance}</div>
+          <button 
+            className="counter-btn" 
+            style={{ marginBottom: 16 }} 
+            onClick={sendBnb} 
+            disabled={!contract || sendingBnb}
+          >
+            {sendingBnb ? 'Sending...' : 'Send 0.01 BNB'}
+          </button>
           <button className="counter-btn" style={{ marginBottom: 16 }} onClick={() => {
             setWallet('');
             setContract(null);
