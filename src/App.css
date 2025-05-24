@@ -1,0 +1,113 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+}
+
+.counter-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+  border-radius: 2em;
+  border: 4px solid #a259ff;
+  padding: 0.5em 1em;
+  width: fit-content;
+  margin: 2em auto;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.counter-btn {
+  background: #a259ff;
+  color: #fff;
+  border: none;
+  padding: 0.7em 2em;
+  font-size: 1.2em;
+  border-radius: 2em;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background 0.2s;
+}
+.counter-btn.left {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  margin-right: 1em;
+}
+.counter-btn.right {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  margin-left: 1em;
+}
+.counter-btn:hover {
+  background: #7c2fff;
+}
+.counter-value {
+  font-size: 2em;
+  font-weight: 600;
+  color: #2d2d3a;
+  min-width: 2em;
+  text-align: center;
+}
+
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.main-content {
+  flex: 1;
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+  padding-bottom: 4rem;
+}
+
+.page-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - 200px);
+}
