@@ -7,8 +7,6 @@ export const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [network, setNetwork] = useState<string>('');
   const [isScrolled, setIsScrolled] = useState(false);
-  const [wallet, setWallet] = useState<string>('');
-  const [isConnecting, setIsConnecting] = useState(false);
   const location = useLocation();
 
   useEffect(() => {
@@ -30,33 +28,6 @@ export const Header = () => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-
-  const connectWallet = async () => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const ethWin = window as any;
-    if (!ethWin.ethereum) {
-      alert('MetaMask is not installed!');
-      return;
-    }
-    
-    setIsConnecting(true);
-    try {
-      const provider = new ethers.BrowserProvider(ethWin.ethereum);
-      await provider.send('eth_requestAccounts', []);
-      const signer = await provider.getSigner();
-      const address = await signer.getAddress();
-      setWallet(address);
-    } catch (error) {
-      console.error('Failed to connect wallet:', error);
-      alert('Failed to connect wallet!');
-    } finally {
-      setIsConnecting(false);
-    }
-  };
-
-  const disconnectWallet = () => {
-    setWallet('');
-  };
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -118,36 +89,6 @@ export const Header = () => {
                 <span className="nav-text">Homepage</span>
                 {location.pathname === '/' && <span className="active-indicator"></span>}
               </Link>
-            </li>
-            <li className="wallet-section">
-              {!wallet ? (
-                <button 
-                  className="connect-btn"
-                  onClick={connectWallet}
-                  disabled={isConnecting}
-                >
-                  <span className="connect-icon">🔗</span>
-                  <span className="connect-text">
-                    {isConnecting ? 'Connecting...' : 'Connect Wallet'}
-                  </span>
-                </button>
-              ) : (
-                <div className="wallet-info">
-                  <div className="wallet-address">
-                    <span className="wallet-icon">👤</span>
-                    <span className="address-text">
-                      {wallet.slice(0, 6)}...{wallet.slice(-4)}
-                    </span>
-                  </div>
-                  <button 
-                    className="disconnect-btn"
-                    onClick={disconnectWallet}
-                    title="Disconnect wallet"
-                  >
-                    ✕
-                  </button>
-                </div>
-              )}
             </li>
           </ul>
         </nav>
