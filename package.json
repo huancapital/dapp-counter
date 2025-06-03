@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Hardhat setup for CounterContract deployment on BSC testnet",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "compile": "hardhat compile",
     "deploy": "hardhat run scripts/deploy.js --network bscTestnet",
@@ -10,15 +11,29 @@
     "test": "hardhat test",
     "node": "hardhat node",
     "build": "vite build",
-    "dev": "vite"
+    "dev": "vite",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.8.0",
+    "ethers": "^6.0.0"
   },
   "devDependencies": {
     "@nomicfoundation/hardhat-toolbox": "^4.0.0",
     "@nomicfoundation/hardhat-verify": "^2.0.0",
     "@nomicfoundation/hardhat-ethers": "^3.0.0",
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
+    "@vitejs/plugin-react": "^4.0.0",
+    "typescript": "^5.0.0",
+    "vite": "^4.4.0",
     "hardhat": "^2.19.0",
-    "ethers": "^6.0.0",
-    "dotenv": "^16.0.0"
+    "dotenv": "^16.0.0",
+    "eslint": "^8.45.0",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0"
   },
   "keywords": [
     "solidity",
@@ -26,7 +41,10 @@
     "hardhat",
     "bsc",
     "binance",
-    "testnet"
+    "testnet",
+    "react",
+    "vite",
+    "dapp"
   ],
   "author": "",
   "license": "MIT"
