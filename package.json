@@ -8,7 +8,9 @@
     "deploy": "hardhat run scripts/deploy.js --network bscTestnet",
     "verify": "hardhat verify --network bscTestnet",
     "test": "hardhat test",
-    "node": "hardhat node"
+    "node": "hardhat node",
+    "build": "vite build",
+    "dev": "vite"
   },
   "devDependencies": {
     "@nomicfoundation/hardhat-toolbox": "^4.0.0",
