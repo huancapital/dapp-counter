@@ -111,3 +111,14 @@
   justify-content: center;
   min-height: calc(100vh - 200px);
 }
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}

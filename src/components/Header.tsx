@@ -3,16 +3,12 @@ import { Link, useLocation } from 'react-router-dom';
 import { ethers } from 'ethers';
 import './Header.css';
 
-type TransactionFilter = 'all' | 'incoming' | 'outgoing';
-
-const CONTRACT_ADDRESS = '0xbc64a90a919c0b9102f477056a3403b2b0a74976';
-
 export const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [transactionFilter, setTransactionFilter] = useState<TransactionFilter>('all');
   const [network, setNetwork] = useState<string>('');
-  const [isCopied, setIsCopied] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [wallet, setWallet] = useState<string>('');
+  const [isConnecting, setIsConnecting] = useState(false);
   const location = useLocation();
 
   useEffect(() => {
@@ -35,18 +31,35 @@ export const Header = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
+  const connectWallet = async () => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const ethWin = window as any;
+    if (!ethWin.ethereum) {
+      alert('MetaMask is not installed!');
+      return;
+    }
+    
+    setIsConnecting(true);
+    try {
+      const provider = new ethers.BrowserProvider(ethWin.ethereum);
+      await provider.send('eth_requestAccounts', []);
+      const signer = await provider.getSigner();
+      const address = await signer.getAddress();
+      setWallet(address);
+    } catch (error) {
+      console.error('Failed to connect wallet:', error);
+      alert('Failed to connect wallet!');
+    } finally {
+      setIsConnecting(false);
+    }
   };
 
-  const copyContractAddress = async () => {
-    try {
-      await navigator.clipboard.writeText(CONTRACT_ADDRESS);
-      setIsCopied(true);
-      setTimeout(() => setIsCopied(false), 2000);
-    } catch (err) {
-      console.error('Failed to copy:', err);
-    }
+  const disconnectWallet = () => {
+    setWallet('');
+  };
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
   };
 
   const closeMenu = () => {
@@ -75,6 +88,7 @@ export const Header = () => {
               <div className="logo-content">
                 <span className="logo-icon">🔢</span>
                 <span className="logo-text">BNW Counter</span>
+                <span className="pro-badge">PRO</span>
               </div>
             </Link>
           </div>
@@ -105,39 +119,35 @@ export const Header = () => {
                 {location.pathname === '/' && <span className="active-indicator"></span>}
               </Link>
             </li>
-            <li className={location.pathname === '/transactions' ? 'active' : ''}>
-              <div className="transactions-menu">
-                <Link to="/transactions" onClick={closeMenu}>
-                  <span className="nav-icon">📜</span>
-                  <span className="nav-text">Transaction History</span>
-                  {location.pathname === '/transactions' && <span className="active-indicator"></span>}
-                </Link>
-                <div className="filter-dropdown">
-                  <select 
-                    value={transactionFilter}
-                    onChange={(e) => setTransactionFilter(e.target.value as TransactionFilter)}
-                    onClick={(e) => e.stopPropagation()}
-                  >
-                    <option value="all">All Transactions</option>
-                    <option value="incoming">Incoming</option>
-                    <option value="outgoing">Outgoing</option>
-                  </select>
-                </div>
-              </div>
-            </li>
-            <li className="contract-address">
-              <div className="contract-address-container">
-                <span className="contract-label">Contract:</span>
-                <code className="address">{CONTRACT_ADDRESS}</code>
+            <li className="wallet-section">
+              {!wallet ? (
                 <button 
-                  className={`copy-button ${isCopied ? 'copied' : ''}`}
-                  onClick={copyContractAddress}
-                  title="Copy contract address"
+                  className="connect-btn"
+                  onClick={connectWallet}
+                  disabled={isConnecting}
                 >
-                  <span className="copy-icon">{isCopied ? '✓' : '📋'}</span>
-                  <span className="copy-tooltip">{isCopied ? 'Copied!' : 'Copy'}</span>
+                  <span className="connect-icon">🔗</span>
+                  <span className="connect-text">
+                    {isConnecting ? 'Connecting...' : 'Connect Wallet'}
+                  </span>
                 </button>
-              </div>
+              ) : (
+                <div className="wallet-info">
+                  <div className="wallet-address">
+                    <span className="wallet-icon">👤</span>
+                    <span className="address-text">
+                      {wallet.slice(0, 6)}...{wallet.slice(-4)}
+                    </span>
+                  </div>
+                  <button 
+                    className="disconnect-btn"
+                    onClick={disconnectWallet}
+                    title="Disconnect wallet"
+                  >
+                    ✕
+                  </button>
+                </div>
+              )}
             </li>
           </ul>
         </nav>

@@ -1,17 +1,29 @@
 .header {
-  background-color: #1a1a1a;
-  padding: 1rem 0;
+  background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #2a2a2a 100%);
+  padding: 1.2rem 0;
   position: sticky;
   top: 0;
   z-index: 1000;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 
+    0 4px 20px rgba(0, 0, 0, 0.4),
+    0 1px 4px rgba(162, 89, 255, 0.2);
+  border-bottom: 1px solid rgba(162, 89, 255, 0.3);
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+}
+
+.header.scrolled {
+  background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #2a2a2a 100%);
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.6),
+    0 2px 8px rgba(162, 89, 255, 0.3);
+  padding: 0.8rem 0;
 }
 
 .header-container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 1.5rem;
+  padding: 0 2rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -20,43 +32,91 @@
 .header-left {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 1.5rem;
 }
 
 .logo a {
   color: #ffffff;
   text-decoration: none;
-  font-size: 1.5rem;
-  font-weight: bold;
+  font-size: 1.6rem;
+  font-weight: 700;
   display: flex;
   align-items: center;
-  transition: color 0.3s ease;
+  transition: all 0.3s ease;
+}
+
+.logo-content {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  border-radius: 15px;
+  background: linear-gradient(135deg, rgba(162, 89, 255, 0.1), rgba(100, 108, 255, 0.1));
+  border: 1px solid rgba(162, 89, 255, 0.2);
+  backdrop-filter: blur(5px);
+  transition: all 0.3s ease;
+}
+
+.logo-content:hover {
+  background: linear-gradient(135deg, rgba(162, 89, 255, 0.2), rgba(100, 108, 255, 0.2));
+  border-color: rgba(162, 89, 255, 0.4);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(162, 89, 255, 0.2);
+}
+
+.logo-icon {
+  font-size: 1.8rem;
+  margin-right: 0.8rem;
+  filter: drop-shadow(0 0 8px rgba(162, 89, 255, 0.5));
 }
 
 .logo-text {
-  background: linear-gradient(45deg, #a259ff, #646cff);
+  background: linear-gradient(45deg, #a259ff, #646cff, #61dafb);
+  background-size: 200% 200%;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  animation: gradient-shift 3s ease-in-out infinite;
+}
+
+@keyframes gradient-shift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
 }
 
 .network-badge {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  background: rgba(255, 255, 255, 0.1);
-  padding: 0.4rem 0.8rem;
-  border-radius: 1rem;
+  gap: 0.6rem;
+  background: linear-gradient(135deg, rgba(76, 175, 80, 0.2), rgba(76, 175, 80, 0.1));
+  padding: 0.6rem 1.2rem;
+  border-radius: 20px;
   font-size: 0.9rem;
-  color: #fff;
+  font-weight: 600;
+  color: #4CAF50;
+  border: 1px solid rgba(76, 175, 80, 0.3);
+  backdrop-filter: blur(5px);
+  transition: all 0.3s ease;
+}
+
+.network-badge:hover {
+  background: linear-gradient(135deg, rgba(76, 175, 80, 0.3), rgba(76, 175, 80, 0.2));
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(76, 175, 80, 0.2);
 }
 
 .network-dot {
-  width: 8px;
-  height: 8px;
-  background-color: #4CAF50;
+  width: 10px;
+  height: 10px;
+  background: radial-gradient(circle, #4CAF50, #2E7D32);
   border-radius: 50%;
   display: inline-block;
+  box-shadow: 0 0 8px rgba(76, 175, 80, 0.6);
+  animation: pulse-dot 2s ease-in-out infinite;
+}
+
+@keyframes pulse-dot {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
 }
 
 .nav-menu ul {
@@ -64,7 +124,7 @@
   margin: 0;
   padding: 0;
   display: flex;
-  gap: 2rem;
+  gap: 1rem;
   align-items: center;
 }
 
@@ -76,89 +136,183 @@
   color: #ffffff;
   text-decoration: none;
   font-size: 1rem;
+  font-weight: 500;
   transition: all 0.3s ease;
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.5rem;
-  border-radius: 0.5rem;
+  gap: 0.6rem;
+  padding: 0.8rem 1.2rem;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(5px);
+  min-width: 140px;
+  justify-content: center;
+  white-space: nowrap;
 }
 
 .nav-icon {
   font-size: 1.2rem;
+  filter: drop-shadow(0 0 4px rgba(162, 89, 255, 0.5));
 }
 
 .nav-menu a:hover {
-  color: #646cff;
-  background: rgba(255, 255, 255, 0.1);
+  color: #a259ff;
+  background: linear-gradient(135deg, rgba(162, 89, 255, 0.2), rgba(100, 108, 255, 0.1));
+  border-color: rgba(162, 89, 255, 0.3);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(162, 89, 255, 0.3);
 }
 
 .nav-menu li.active a {
-  color: #646cff;
-  background: rgba(100, 108, 255, 0.1);
+  color: #a259ff;
+  background: linear-gradient(135deg, rgba(162, 89, 255, 0.3), rgba(100, 108, 255, 0.2));
+  border-color: rgba(162, 89, 255, 0.5);
+  box-shadow: 
+    0 4px 16px rgba(162, 89, 255, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
 .transactions-menu {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 1rem;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.transactions-menu a {
+  width: 100%;
+  min-width: 140px;
+}
+
+.filter-dropdown {
+  width: 100%;
+  display: flex;
+  justify-content: center;
 }
 
 .filter-dropdown select {
   background-color: rgba(255, 255, 255, 0.1);
   color: #ffffff;
   border: 1px solid rgba(255, 255, 255, 0.2);
-  padding: 0.5rem 1rem;
-  border-radius: 0.5rem;
-  font-size: 0.9rem;
+  padding: 0.4rem 0.8rem;
+  border-radius: 8px;
+  font-size: 0.8rem;
   cursor: pointer;
   transition: all 0.3s ease;
+  min-width: 120px;
 }
 
 .filter-dropdown select:hover {
   background-color: rgba(255, 255, 255, 0.15);
 }
 
-.contract-address-container {
+.wallet-section {
+  position: relative;
   display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  background: rgba(255, 255, 255, 0.05);
-  padding: 0.5rem 1rem;
-  border-radius: 0.5rem;
-  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
-}
-
-.contract-label {
-  color: #888;
-  font-size: 0.9rem;
-}
-
-.address {
-  color: #fff;
-  font-size: 0.9rem;
-}
-
-.copy-button {
-  background: none;
-  border: none;
-  color: #888;
-  cursor: pointer;
-  padding: 0.25rem;
-  border-radius: 0.25rem;
-  transition: all 0.3s ease;
-  display: flex;
-  align-items: center;
   justify-content: center;
 }
 
-.copy-button:hover {
-  color: #fff;
-  background: rgba(255, 255, 255, 0.1);
+.connect-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  background: linear-gradient(135deg, rgba(162, 89, 255, 0.2), rgba(100, 108, 255, 0.1));
+  border: 1px solid rgba(162, 89, 255, 0.3);
+  color: #ffffff;
+  padding: 0.8rem 1.2rem;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(5px);
+  min-width: 140px;
+  justify-content: center;
+  white-space: nowrap;
 }
 
-.copy-button.copied {
+.connect-btn:hover:not(:disabled) {
+  background: linear-gradient(135deg, rgba(162, 89, 255, 0.3), rgba(100, 108, 255, 0.2));
+  border-color: rgba(162, 89, 255, 0.5);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(162, 89, 255, 0.3);
+}
+
+.connect-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.connect-icon {
+  font-size: 1.2rem;
+  filter: drop-shadow(0 0 6px rgba(162, 89, 255, 0.6));
+}
+
+.connect-text {
+  font-weight: 600;
+}
+
+.wallet-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: linear-gradient(135deg, rgba(76, 175, 80, 0.1), rgba(46, 125, 50, 0.05));
+  border: 1px solid rgba(76, 175, 80, 0.3);
+  padding: 0.8rem 1.2rem;
+  border-radius: 12px;
+  backdrop-filter: blur(5px);
+  transition: all 0.3s ease;
+  min-width: 140px;
+  justify-content: center;
+}
+
+.wallet-info:hover {
+  background: linear-gradient(135deg, rgba(76, 175, 80, 0.15), rgba(46, 125, 50, 0.1));
+  border-color: rgba(76, 175, 80, 0.4);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 15px rgba(76, 175, 80, 0.2);
+}
+
+.wallet-address {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
   color: #4CAF50;
+  font-weight: 600;
+}
+
+.wallet-icon {
+  font-size: 1.2rem;
+  filter: drop-shadow(0 0 6px rgba(76, 175, 80, 0.6));
+}
+
+.address-text {
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.disconnect-btn {
+  background: rgba(244, 67, 54, 0.2);
+  border: 1px solid rgba(244, 67, 54, 0.3);
+  color: #F44336;
+  padding: 0.4rem 0.8rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(5px);
+}
+
+.disconnect-btn:hover {
+  background: rgba(244, 67, 54, 0.3);
+  border-color: rgba(244, 67, 54, 0.5);
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(244, 67, 54, 0.3);
 }
 
 .menu-button {
@@ -279,4 +433,54 @@
     background: rgba(0, 0, 0, 0.5);
     z-index: -1;
   }
+}
+
+.pro-badge {
+  background: linear-gradient(45deg, #FFD700, #FFA500, #FF8C00);
+  background-size: 200% 200%;
+  color: #000;
+  font-size: 0.7em;
+  font-weight: 900;
+  padding: 4px 12px;
+  border-radius: 15px;
+  margin-left: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  box-shadow: 
+    0 4px 8px rgba(255, 215, 0, 0.4),
+    0 1px 2px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  border: 1px solid #FFD700;
+  animation: pro-shine 3s ease-in-out infinite;
+  position: relative;
+  overflow: hidden;
+}
+
+.pro-badge::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  transform: rotate(45deg);
+  animation: shine-sweep 4s ease-in-out infinite;
+}
+
+@keyframes pro-shine {
+  0%, 100% { 
+    background-position: 0% 50%;
+    transform: scale(1);
+  }
+  50% { 
+    background-position: 100% 50%;
+    transform: scale(1.05);
+  }
+}
+
+@keyframes shine-sweep {
+  0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+  50% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+  100% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
 } 
